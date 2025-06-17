@@ -1,49 +1,14 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-  <title>Fortiral – Ordini Web App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial; margin: 20px; }
-    textarea { width: 100%; height: 200px; }
-    button { margin-top: 15px; padding: 10px 20px; font-size: 16px; }
-    #history { margin-top: 30px; }
-    .entry { border-bottom: 1px solid #ccc; padding: 5px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortiral - Ordini</title>
 </head>
-<body>
-  <h2>Fortiral – Inserimento Ordine</h2>
-  <p>Incolla qui sotto il testo della mail di ordine Fortiral:</p>
-  <textarea id="orderText" placeholder="Copia e incolla qui l’email..."></textarea>
-  <button onclick="saveOrder()">Salva Ordine in Excel</button>
-  <div id="history">
-    <h3>Ordini Salvati</h3>
-    <div id="historyList"></div>
-  </div>
-  <script>
-    function saveOrder() {
-      const text = document.getElementById('orderText').value;
-      if (!text.trim()) return alert('Inserisci il testo prima di salvare.');
-      const now = new Date().toISOString().split('T')[0];
-      const filename = `ordine_fortiral_${now}.csv`;
-      const blob = new Blob([text], { type: 'text/csv' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = filename;
-      link.click();
-      const history = JSON.parse(localStorage.getItem('fortiral_history')||'[]');
-      history.unshift({date:now, content:text.slice(0,100)+'...'});
-      localStorage.setItem('fortiral_history', JSON.stringify(history));
-      loadHistory();
-      document.getElementById('orderText').value='';
-    }
-    function loadHistory(){
-      const history = JSON.parse(localStorage.getItem('fortiral_history')||'[]');
-      const container = document.getElementById('historyList');
-      container.innerHTML = history.map(h => `<div class="entry"><strong>${h.date}</strong><br>${h.content}</div>`).join('');
-    }
-    window.onload = loadHistory;
-  </script>
+<body style="font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9;">
+    <h1>Fortiral - Storico Ordini</h1>
+    <p>Benvenuto nella Web App Fortiral. Qui potrai visualizzare o scaricare il file Excel aggiornato con gli ordini ricevuti via email.</p>
+    <a href="ordini.xlsx" download style="display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">📥 Scarica File Excel</a>
 </body>
 </html>
